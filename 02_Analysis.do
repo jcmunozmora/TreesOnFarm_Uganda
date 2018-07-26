@@ -1,24 +1,26 @@
  global tables "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/06_Paper/tablets"
- 
+
 *** **************************
 *** 00 - Prepare Baseline Data -- 2005-06
 *** **************************
 
 
-use "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/Uganda_Panel_06282018.dta", clear
+use "/Users/juancarlosmunoz/Box   Sync/Uganda_LSMS/05_Analysis/Uganda_Panel_06282018.dta", clear
 
 *** Only Rural Households
 drop if urban==1
 
 *** Gen Main Variables
+*** TODO: Organizar la variable
+* IDEA: I need to organize this
+* TODO: Es necesario to organizar thus point here
 
 foreach var of varlist exp_food exp_food_pur- tot_exp inc_fruit- inc_ag_total  {
-	replace `var'=ln(`var'+0.01)
+	replace `var'=ln(`var'+0.0,1)
 }
 
 *** Main Variables --- Income
 gen harv_q_treeonfarm=(harv_q_fruit+harv_q_cash)
-
 
 foreach i in fruit cash other treeonfarm {
 	** Replace
@@ -57,7 +59,7 @@ do "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/Syntaxis_v1/09_labels.do"
 
 *****************----------------------------------
 **********------------- Table 1: Change on the Consumption
-*****************---------------------------------- 
+*****************----------------------------------
 
 ***** global - Main Data
 global hvl_frt "d_fruit_w_b_more d_fruit_w_b_less"
@@ -79,7 +81,7 @@ esttab using "$tables/table_main_diff.csv", fragment star(* 0.1 ** 0.05 *** 0.01
 
 *****************----------------------------------
 **********------------- Table 1: Change on the Consumption -- Without Fruit Trees
-*****************---------------------------------- 
+*****************----------------------------------
 
 ***** global - Main Data
 global hvl_frt "d_fruit_wo_b_more d_fruit_wo_b_less"
@@ -99,7 +101,7 @@ esttab using "$tables/table_main_diff_wo_f.csv", fragment star(* 0.1 ** 0.05 ***
 
 *****************----------------------------------
 **********------------- Table 1: Summary Statistics
-*****************---------------------------------- 
+*****************----------------------------------
 
 	***- Data
 	replace itk_kcal_total=(itk_kcal_total/7)/hhsize_ae
@@ -134,4 +136,3 @@ esttab using "$tables/table_main_diff_wo_f.csv", fragment star(* 0.1 ** 0.05 ***
 ttest tot_exp=w0_tot_exp if d_tof_w_b_more==1
 ttest tot_exp=w0_tot_exp if d_tof_w_b_less==1
 ttest tot_exp=w0_tot_exp if d_tof_w_b_same==1
-
