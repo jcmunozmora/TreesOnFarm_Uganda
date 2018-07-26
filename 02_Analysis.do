@@ -21,7 +21,6 @@ foreach var of varlist exp_food exp_food_pur- tot_exp inc_fruit- inc_ag_total  {
 
 *** Main Variables --- Income
 gen harv_q_treeonfarm=(harv_q_fruit+harv_q_cash)
-www.google.com
 
 foreach i in fruit cash other treeonfarm {
 	** Replace
