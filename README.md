@@ -1,4 +1,6 @@
-# Trees on Farm - Uganda
+# Do trees on farms improve household welfare? Evidence from national panel data in Uganda
+
+Daniel C. Miller, Juan Carlos Muñoz-Mora, Laura V. Rasmussen, Alberto Zezza
 
 Data and syntaxis for the project on Trees On Farm in Ugada
 
@@ -9,9 +11,9 @@ Folder Structure:
  
  # syntaxis
   
-At the *syntaxis* folder, you can find the following codes in R in Stata. Data preparation (eg. cleaning, creation of variables and so on) were made using R, the final regression analysis was made using STATA 13. As we have tried several specification, you will find that each variable was built for all waves. In our current analysis, we don't use all of them, yet we can explore to include more of these variables.
-  
-  There are 
+At the *syntaxis* folder, you can find the following codes in R in Stata. Data preparation (eg. cleaning, creation of variables and so on) were made using R, the final regression analysis was made using STATA 13. Although we don't use  all controls, wyou can download a full set of household controls for all waves. 
+
+The codes are the following:
   
   ## Codes for building the data set
   
@@ -32,7 +34,7 @@ As our result we have two main data sets:
 
   ## Codes for analysing
 
-As I want you to catch up with all the analysis we have done, I decided to leave all the analysis we have done so far. The codes for analysis are:
+The codes for analysis are:
   - **08_Analysis** This is a very preliminar analysis in R. I wouldn't use this, yet have a look just in case.
   - **09_labels.do** Here all the labels for the DATA analysis
   - **09_STATA_Analysis.do** THIS IS IMPORTANT!.. The current tables we have in our paper were made using this codes.
