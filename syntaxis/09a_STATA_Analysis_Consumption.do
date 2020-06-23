@@ -1,11 +1,15 @@
- global tables "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/06_Paper/tablets"
+
+ 
+global main_path "/Users/juan-carlosm/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda"
+
+
+ global tables "$main_path/02_Paper/tables"
  
 *** **************************
 *** 00 - Prepare Baseline Data -- 2005-06
 *** **************************
 
-
-use "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/data05_hh.dta", clear
+use "$main_path/01_DataSets/data05_hh.dta", clear
 
 drop exp_food
 gen exp_food=exp_food_pur+exp_food_away+exp_food_own+exp_food_free
@@ -26,12 +30,63 @@ duplicates drop hhid, force
 tempfile wave0
 save `wave0',replace
 
+*** **************************
+*** 01 - Prepare Baseline Data -- 2009-10
+*** **************************
+
+use "$main_path/01_DataSets/data10_hh.dta", clear
+
+drop exp_food
+gen exp_food=exp_food_pur+exp_food_away+exp_food_own+exp_food_free
+foreach var of varlist exp_food exp_food_pur- tot_exp inc_fruit- inc_ag_total {
+	replace `var'=0 if `var'==.
+	replace `var'=`var'*1.520308938
+	***********
+	**********
+}
+
+replace hhsize_ae=hhsize if hhsize_ae==0
+
+renvars *, prefix("w1_")
+rename w1_hhid hhid
+
+duplicates drop hhid, force
+
+tempfile wave1
+save `wave1',replace
+
+*** **************************
+*** 01 - Prepare Baseline Data -- 2009-10
+*** **************************
+
+use "$main_path/01_DataSets/data11_hh.dta", clear
+
+drop exp_food
+gen exp_food=exp_food_pur+exp_food_away+exp_food_own+exp_food_free
+foreach var of varlist exp_food exp_food_pur- tot_exp inc_fruit- inc_ag_total {
+	replace `var'=0 if `var'==.
+	replace `var'=`var'*1.520308938
+	***********
+	**********
+}
+
+replace hhsize_ae=hhsize if hhsize_ae==0
+
+renvars *, prefix("w1_")
+rename w1_hhid hhid
+
+duplicates drop hhid, force
+
+tempfile wave1
+save `wave1',replace
+
+
 
 *** **************************
 *** 01 - Prepare Baseline Data -- 2013-14
 *** **************************
 
-use "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/data14_hh.dta", clear
+use "$main_path/01_DataSets/data14_hh.dta", clear
 
 *** Only Rural Households
 drop if urban==1
@@ -49,10 +104,20 @@ drop if w0_harv_q_fruit==.
 replace harv_q_fruit=0 if harv_q_fruit==.
 
 *** Migration Variable
-merge 1:1 hhid using "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/Panel_Structure_Data_Uganda.dta", nogen keep(matched) 
+merge 1:1 hhid using "$main_path/01_DataSets/Panel_Structure_Data_Uganda.dta", nogen keep(matched) 
 
 rename hhid HHID
-merge 1:1 HHID using  "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/00_RawData/2011-12/Geovariables/UNPS_Geovars_1112.dta", nogen keep(master matched) keepusing(ssa_aez09_x)
+merge 1:1 HHID using  "$main_path/01_DataSets/UNPS_Geovars_1112.dta", nogen keep(master matched) keepusing(ssa_aez09_x)
+
+******************************
+** 
+
+gen hhid_05=hhid
+
+merge 1:1 hhid_05 using "$main_path/01_DataSets/data10_hh.dta"
+
+
+
 
 *** fix this fixed effect
 sort ea ssa_aez09_x
@@ -123,7 +188,7 @@ global hh_welfare "w0_lvst_large w0_lvst_small w0_land_size_ln"
 global int_cod "w0_sh_tof_w_b w0_sh_fruit_w_b w0_sh_cash"
 
 ***** Labels
-do "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/Syntaxis_v1/09_labels.do"
+do "$main_path/syntaxis/09_labels.do"
 
 *****************----------------------------------
 **********------------- Table 1: Change on the Consumption

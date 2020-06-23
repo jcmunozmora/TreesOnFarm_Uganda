@@ -1,6 +1,15 @@
+******
+** UGANDA PAPER
+** Miller et al 2020
+**
+******
+
+
+global ds"/Users/juan-carlosm/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda/"
+
 
 **** Baseline Information 2005-06
-	u "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/00_RawData/2005-06/Household/GSEC1.dta", clear
+	u "$ds/00_RawData/2005-06/Household/GSEC1.dta", clear
 
 		keep HHID comm region 
 		renvars comm region, prefix("w0_")

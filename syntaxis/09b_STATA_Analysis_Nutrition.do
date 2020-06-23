@@ -1,11 +1,12 @@
 
- global tables "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/06_Paper/tablets"
- 
+global main_path "/Users/juan-carlosm/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda"
+
+ global tables "$main_path/02_Paper/tables"
 *** **************************
 *** 00 - Prepare Baseline Data -- 2005-06
 *** **************************
 
-use "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/data05_hh.dta", clear
+use "$main_path/01_DataSets/data05_hh.dta", clear
 
 
 foreach var of varlist exp_food- tot_exp inc_fruit- inc_ag_total {
@@ -27,13 +28,13 @@ save `wave0',replace
 *** 00 - Prepare Baseline Data -- 2005-06
 *** **************************
 
-********------------    2013-14: 
-use "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/data14_nutr.dta", clear
+********------------    2013-14:
+use "$main_path/01_DataSets/data14_nutr.dta", clear
 
 **---------
 **** Fix Agro-ecological FE
 rename hhid HHID
-merge n:1 HHID using  "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/00_RawData/2011-12/Geovariables/UNPS_Geovars_1112.dta", nogen keep(master matched) keepusing(ssa_aez09_x)
+merge n:1 HHID using  "$main_path/01_DataSets/UNPS_Geovars_1112.dta", nogen keep(master matched) keepusing(ssa_aez09_x)
 *** fix this fixed effect
 sort ea ssa_aez09_x
 bys ea: replace ssa_aez09_x=ssa_aez09_x[_n-1] if ssa_aez09_x==.
@@ -71,7 +72,7 @@ foreach i in fruit cash other treeonfarm {
 	gen never_`i'=(w0_harv_q_`i'==0 & harv_q_`i'==0)
 }
 
-***** ---- Change the nutritional 
+***** ---- Change the nutritional
 foreach var in fruit cash other treeonfarm {
 	gen d_`var'=(harv_q_`var'>0)
 	gen d_w0_`var'=(w0_harv_q_`var'>0)
@@ -127,29 +128,38 @@ global controls "$ch_controls $main_care $livestock $hh_control $hh_welfare"
 
 
 *****************----------------------------------
-**********------------- Table 1: Nutrition 
-*****************---------------------------------- 
+**********------------- Table 1: Nutrition
+*****************----------------------------------
 eststo clear
 	*** Stunting
-	eststo: xi: probit stunting share_treesonfarm $controls   i.stratum i.intef_fe i.ssa_aez09_x, cl(hhid)
-	predict resid1
-	eststo: xi: probit stunting share_fruit $controls cpexp30 i.stratum i.intef_fe i.ssa_aez09_x, cl(hhid)
+	eststo: xi: probit stunting share_treesonfarm $controls   cpexp30  i.stratum i.intef_fe i.ssa_aez09_x, cl(hhid)
+	margins , dydx(share_treesonfarm) atmeans
+
+	eststo: xi: probit stunting share_fruit $controls   cpexp30  i.stratum i.intef_fe i.ssa_aez09_x, cl(hhid)
+	margins , dydx(share_fruit) atmeans
+
 
 	*** Under_Weight
 	eststo: xi: probit under_weight share_treesonfarm $controls cpexp30 i.stratum i.intef_fe i.ssa_aez09_x, cl(hhid)
+	margins , dydx(share_treesonfarm) atmeans
+
 	eststo: xi: probit under_weight share_fruit ch_age_m $controls cpexp30 i.stratum i.intef_fe i.ssa_aez09_x, cl(hhid)
+	margins , dydx(share_fruit) atmeans
 
 	*** Wasting
 	eststo: xi: probit wasting share_treesonfarm $controls cpexp30 i.stratum i.intef_fe i.ssa_aez09_x, cl(hhid)
+	margins , dydx(share_treesonfarm) atmeans
+
 	eststo: xi: probit wasting share_fruit $controls cpexp30 i.stratum i.intef_fe i.ssa_aez09_x, cl(hhid)
+	margins , dydx(share_fruit) atmeans
 
 	*** Stunting
 esttab using "$tables/table_nutr_chil.csv", fragment star(* 0.1 ** 0.05 *** 0.01)   nonumber nomtitles replace brackets mlabels("(1)" "(2)" "(3)" "(4)" "(5)" "(6)" ) label se compress nogaps depvars se(%9.3f) b(%9.3f) stats(N r2, fmt(%9.0f  %9.3f) labels("Observations" "R-squared" ))  indicate( "Strata FE= _Istr*" "Agroecological FE= _Issa*" "Moth Interview FE=_Iint*") keep(share_treesonfarm share_fruit $controls cpexp30) order(share_treesonfarm share_fruit $controls cpexp30)
 
 
 *****************----------------------------------
-**********------------- Table 1: Nutrition 
-*****************---------------------------------- 
+**********------------- Table 1: Nutrition
+*****************----------------------------------
 
 
 **-- DAta 0
@@ -159,7 +169,3 @@ esttab using "$tables/table_nutr_chil.csv", fragment star(* 0.1 ** 0.05 *** 0.01
 
 	local j=1
 	esttab using "$tables/table_desc_3.csv", cells("count mean(fmt(%9.3f)) sd(fmt(%9.3f)) min(fmt(%9.3f)) max(fmt(%9.3f)) " ) label nodepvar  nonum replace noobs nomtitles  fragment collabels("Observations" "Mean" "Std. Deviation" "Min" "Max")
-
-
-
-
