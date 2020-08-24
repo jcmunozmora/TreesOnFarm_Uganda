@@ -22,7 +22,7 @@ library(multiwayvcov)
 library(sandwich)
 
 ### Directories
-path_work <- "/Users/juan-carlosm/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda/"
+path_work <- "/Users/jcmunoz/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda/"
 graph_path <- "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Paper/Graph/"
 save_data <-  paste0(path_work,"01_DataSets/")
 path_who <- "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/inputs/"

@@ -1,23 +1,12 @@
-*** **************************
-*** **************************
-
- ### Fix dat14
-hh_roster_14 <- read.dta13(paste0(path_work,"00_RawData/2013-14/GSEC1.dta"))
-mer <- hh_roster_14 %>% transmute(HHID_old=HHID_old,hhid=HHID) %>% filter(!duplicated(hhid))
-dat14 <- mer_data("14", 0.914632051) %>% mutate(comm=ea) %>% select(-HHID_05,-ea)
-
-hh_roster_14 <-hh_roster_14 %>% left_join(mer) %>% transmute(HHID=as.character(HHID_old)) 
-
-panel <- rbind(dat06,mer_data("10",1),mer_data("11",1.094444912),mer_data("12",0.991249995),dat14)
 
 *** **************************
 *** **************************
- 
- 
-global main_path "/Users/juan-carlosm/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda"
+
+
+global main_path "/Users/jcmunoz/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda"
 
  global tables "$main_path/02_Paper/tables"
- 
+
 *** **************************
 *** 00 - Prepare Baseline Data -- 2005-06
 *** **************************
@@ -143,13 +132,13 @@ drop if w0_harv_q_fruit==.
 replace harv_q_fruit=0 if harv_q_fruit==.
 
 *** Migration Variable
-merge 1:1 hhid using "$main_path/01_DataSets/Panel_Structure_Data_Uganda.dta", nogen keep(matched) 
+merge 1:1 hhid using "$main_path/01_DataSets/Panel_Structure_Data_Uganda.dta", nogen keep(matched)
 
 rename hhid HHID
 merge 1:1 HHID using  "$main_path/01_DataSets/UNPS_Geovars_1112.dta", nogen keep(master matched) keepusing(ssa_aez09_x)
 
 ******************************
-** 
+**
 
 gen hhid_05=hhid
 
@@ -253,7 +242,7 @@ esttab using "$tables/table_main_diff.csv", fragment star(* 0.1 ** 0.05 *** 0.01
 
 *****************----------------------------------
 **********------------- Table 1: Change on the Consumption -- Without Fruit Trees
-*****************---------------------------------- 
+*****************----------------------------------
 
 ***** global - Main Data
 global hvl_frt "d_fruit_wo_b_more d_fruit_wo_b_less"
@@ -273,7 +262,7 @@ esttab using "$tables/table_main_diff_wo_f.csv", fragment star(* 0.1 ** 0.05 ***
 
 *****************----------------------------------
 **********------------- Table 1: Summary Statistics
-*****************---------------------------------- 
+*****************----------------------------------
 
 	***- Data
 	replace itk_kcal_total=(itk_kcal_total/7)/hhsize_ae
@@ -308,4 +297,3 @@ esttab using "$tables/table_main_diff_wo_f.csv", fragment star(* 0.1 ** 0.05 ***
 ttest tot_exp=w0_tot_exp if d_tof_w_b_more==1
 ttest tot_exp=w0_tot_exp if d_tof_w_b_less==1
 ttest tot_exp=w0_tot_exp if d_tof_w_b_same==1
-

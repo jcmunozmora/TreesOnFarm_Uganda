@@ -5,9 +5,9 @@ library(dplyr)
 library(tidyr)
 
 ### Directories
-path_work <- "/Users/juan-carlosm/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda/"
+path_work <- "/Users/jcmunoz/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda/"
 
-save_data <-  "/Users/juan-carlosm/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda/00_RawData/Analysis/"
+save_data <-  "/Users/jcmunoz/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda/00_RawData/Analysis/"
 
 
 ###########################

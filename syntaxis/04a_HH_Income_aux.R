@@ -5,7 +5,7 @@ library(dplyr)
 library(tidyr)
 library(Gmisc) # Transition Games
 
-path_work <- "/Users/juan-carlosm/Dropbox/Documents/Projects_papers/2019/Munoz-etal_2019/"
+path_work <- "/Users/jcmunoz/Dropbox/Documents/Projects_papers/2019/Munoz-etal_2019/"
 graph_path <- paste0(path_work,"paper/graph/")
 save_data <-  paste0(path_work,"01_DataSets/")
 path_who <- paste0(save_data,"inputs/")
