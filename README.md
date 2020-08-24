@@ -41,4 +41,4 @@ The codes for analysis are:
   - **10_STATA_Nutrition_Tables1-5** This is the baseline results for the nutrition data set. Table 1 and 5 are produced here
   - **11a_Descriptive_Crops.R, 11b_Descriptive_Crops.R 11_Descriptive_General.R**  All figures currently present in our articule were made with this.
 
-If you have any problem replicating our analysis, please do not hestitate to contact us (Dan C. Miller or Juan Carlos Muñoz-Mora)
+If you have any problem replicating our analysis, please do not hestitate to contact us ([Juan Carlos Muñoz-Mora](mailto:jmunozm1@eafit.edu.co?subject=[UGANDA]))
