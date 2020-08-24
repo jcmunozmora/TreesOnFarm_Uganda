@@ -22,9 +22,9 @@ library(multiwayvcov)
 library(sandwich)
 
 ### Directories
-path_work <- "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/"
+path_work <- "/Users/juan-carlosm/Dropbox/Documents/Projects_papers/2020/Miller_etal_2020/TreesOnFarm_Uganda/"
 graph_path <- "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Paper/Graph/"
-save_data <-  "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/"
+save_data <-  paste0(path_work,"01_DataSets/")
 path_who <- "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/inputs/"
 tables_path <- "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/06_Paper/tablets/"
 graph_path <- "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/06_Paper/Graph/"
@@ -35,12 +35,11 @@ graph_path <- "/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/06_Paper/Graph/"
 
 load(paste0(save_data,"TreesOnFarm_Uganda_04012017.Rda"))
 
-sample_end <- read.dta13("/Users/juancarlosmunoz/Box Sync/Uganda_LSMS/05_Analysis/sample_end.dta")
+sample_end <- read.dta13(paste0(save_data,"sample_end.dta"))
 
 ##################
 ##### Main Data
 #################
-
 
 baseline <- sample_end %>% inner_join(data05_hh) %>% setNames(paste0('w0_', names(.))) %>% mutate(hhid=w0_hhid) %>% inner_join(data14_hh)
 
@@ -62,7 +61,7 @@ g_14 <- ggplot(consu_14, aes(tot_exp)) + geom_density(aes(fill=factor(treeosfarm
                                                                                     
 ggsave(paste0(graph_path ,"change_consumption.pdf"),grid.arrange(g_05,g_14),dpi=300)
 
-
+t.test(consu_14$tot_exp,consu_05$tot_exp.,var.equal=TRUE)
 
 ##################
 ##### Descritive data Consumption

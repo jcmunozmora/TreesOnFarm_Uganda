@@ -19,12 +19,17 @@
   fix_id_14 <- function(x) {
     #### Data
     mer <- hh_roster_14 %>% transmute(HHID_old=HHID_old,hhid=HHID) %>% filter(!duplicated(hhid))
-    x <- x %>% left_join(mer) %>% ungroup(hhid) %>% mutate(hhid_05=hhid,hhid=as.character(HHID_old)) %>% select(-HHID_old)
+    x <- x %>% left_join(mer) %>% ungroup(hhid) %>% mutate(hhid_05=hhid,hhid=as.character(HHID_old)) %>% dplyr::select(-HHID_old)
   }
 
   
 #### Get data of the present HH
-  hh_panel_org <- hh_roster_14 %>% transmute(HHID=as.character(HHID_old)) %>% inner_join(hh_roster_10,by="HHID") %>% select(HHID,spitoff09_10,spitoff10_11) %>% inner_join(hh_roster_05,by="HHID") %>% transmute(hhid=HHID)
+  hh_panel_org <- hh_roster_14 %>% 
+    transmute(HHID=as.character(HHID_old)) %>% 
+    inner_join(hh_roster_10,by="HHID") %>% 
+    dplyr::select(HHID,spitoff09_10,spitoff10_11) %>% 
+    inner_join(hh_roster_05,by="HHID") %>% 
+    transmute(hhid=HHID)
   
 ####################
 ##### Dynamic of Trees On Farm - Within the Farm 
@@ -41,9 +46,10 @@
     colnames(x)=c("hhid","crop_id")
     x$hhid <- as.character(x$hhid)
     x <- x[!is.na(x$crop_id),]
-    x <- x %>% mutate(trees=ifelse((crop_id %in% c(710,700,750,760,770,741,742,744)),"Fruit Trees",
+    x <- x %>% 
+      mutate(trees=ifelse((crop_id %in% c(710,700,750,760,770,741,742,744)),"Fruit Trees",
           ifelse(crop_id %in% c(860,820,830,810),"Tree Cash Crops",
-                 ifelse(crop_id %in% c(880,970,990,950,960),"Trees for Timber/Fuelwood","Other Crops")))) %>% group_by(hhid,trees) %>% summarise(n_crop=n()) %>% mutate(wav=wave)
+                 ifelse(crop_id %in% c(880,970,990,950,960),"Trees for Timber/Fuelwood","Other Crops")))) %>% group_by(hhid,trees) %>% dplyr::summarise(n_crop=n()) %>% mutate(wav=wave)
     return(x)
   }
 

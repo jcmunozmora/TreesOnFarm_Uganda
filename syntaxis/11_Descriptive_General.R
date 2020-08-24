@@ -60,18 +60,20 @@ baseline <- sample_end %>% inner_join(data05_hh) %>% setNames(paste0('w0_', name
 ##### Descritive data Consumption
 #################
 
-consu_05 <- data05_hh %>% inner_join(sample_end) %>% transmute(hhid=hhid,tot_exp=log(((tot_exp*1.520308938)/hhsize_ae)+0.01),treeosfarm=sh_fruit_w_b) %>% mutate(wave="2004-05")
+consu_05 <- data05_hh %>% inner_join(sample_end) %>% transmute(hhid=hhid,tot_exp=log(((tot_exp*1.520308938)/hhsize_ae)+0.01),treeosfarm=share_treesonfarm) %>% mutate(wave="2004-05")
+
+consu_10 <- data10_hh %>% inner_join(sample_end) %>% transmute(hhid=hhid,tot_exp=log(((tot_exp*1.520308938)/hhsize_ae)+0.01),treeosfarm=share_treesonfarm) %>% mutate(wave="2010-11")
 
 #### --- Data
-consu_14 <- data14_hh %>% inner_join(sample_end) %>% transmute(hhid=hhid,tot_exp=log(((tot_exp*0.914632051)/hhsize_ae)+0.01),treeosfarm=sh_fruit_w_b) %>% mutate(wave="2013-14")
+consu_14 <- data14_hh %>% inner_join(sample_end) %>% transmute(hhid=hhid,tot_exp=log(((tot_exp*0.914632051)/hhsize_ae)+0.01),treeosfarm=share_treesonfarm) %>% mutate(wave="2013-14")
   
 
 #### Data merge
 ch_data <- merge(consu_05,consu_14,by="hhid") 
-ch_data <- ch_data %>% mutate(change=(treeosfarm.y-treeosfarm.x),never=ifelse(treeosfarm.y==0 & treeosfarm.x==0,1,0)) %>% select(hhid,change,never)
+ch_data <- ch_data %>% mutate(change=(treeosfarm.y-treeosfarm.x),never=ifelse(treeosfarm.y==0 & treeosfarm.x==0,1,0)) %>% dplyr::select(hhid,change,never)
 
 ### Final Data Set
-data <- rbind(consu_05,consu_14)
+data <- rbind(consu_05,consu_10,consu_14)
 
 ds <- data %>% inner_join(ch_data)
 
@@ -95,7 +97,8 @@ allocation <- ggplot(ds, aes(treeosfarm)) + geom_density(aes(fill=factor(wave)),
 ggsave(paste0(graph_path ,"treesonfarm.pdf"),allocation,dpi=300)
 
 ds %>% group_by(wave) %>% summarise(mean(treeosfarm),sd(treeosfarm))
-mean($treeosfarm)
+mean(ds$treeosfarm)
+t.test(ds[ds$wave=="2004-05",]$treeosfarm,ds[ds$wave=="2013-14",]$treeosfarm)
 
 ##################
 ##### Map Locations
