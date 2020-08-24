@@ -70,9 +70,9 @@ do "$main_path/syntaxis/08_labels.do"
 
 	eststo clear
 	ereturn clear
-	eststo: estpost summarize share_treesonfarm  share_fruit cpexp30_g poor_13  $controls  , listwise
+	eststo: estpost summarize share_treesonfarm  share_fruit cpexp30 poor_13  $ch_controls $main_care $hh_control $livestock   , listwise
 
-	local j=1
+
 	esttab using "$tables/table_desc_3.csv", cells("mean(fmt(%9.3f)) sd(fmt(%9.3f)) min(fmt(%9.3f)) max(fmt(%9.3f)) " ) label nodepvar  nonum replace noobs nomtitles  fragment collabels("Mean" "Std. Deviation" "Min" "Max")
 
 

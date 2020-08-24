@@ -20,8 +20,16 @@ cap lab var lvst_small "Number of small ruminants"
 *** Nutrition
 cap lab var share_treesonfarm "Share gross agricultural income from trees on farms (proportion)"
 cap lab var share_fruit "Share gross agricultural income from fruit trees"
-ch_sex ch_age_m ch_age_m_sq
-mcg_age mcg_age_sq mcg_sex mcg_sch
-lvst_large lvst_small
-hhsize_ae dep_ratio
-poor_13 cpexp30
+cap lab var cpexp30 "Monthly Household Expenditures, Spatially/Temporally Adjusted in 11/12"
+cap lab var poor_13 "Poverty Status (below the poverty line) (yes = 1)"
+cap lab var ch_sex "Sex of Child (female = 1)"
+cap lab var ch_age_m "Age of child (in months)"
+cap lab var ch_age_m_sq "Age of child (in months) (squared)"
+cap lab var mcg_age "Age of main caregiver (years)"
+cap lab var mcg_age_sq "Age of main caregiver (years, squared)""
+cap lab var mcg_sex "Sex of main caregiver (female = 1)"
+cap lab var mcg_sch "Education level of main caregiver"
+cap lab var hhsize_ae "Household size (adult equivalent)"
+cap lab var dep_ratio "Dependency ratio"
+cap lab var lvst_large "Number of large ruminants"
+cap lab var lvst_small "Number of small ruminants"
